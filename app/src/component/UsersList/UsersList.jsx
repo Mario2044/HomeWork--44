@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
+  const [albums, setAlbums] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/users')
@@ -10,7 +12,19 @@ const UserList = () => {
       .catch(error => console.log(error));
   }, []);
 
-  const handleAlbumClick = (id) => {}
+  const handleAlbumClick = (id) => {
+    setIsLoading(true);
+    fetch(`https://jsonplaceholder.typicode.com/albums?userId=${id}`)
+      .then(response => response.json())
+      .then(data => {
+        setAlbums(data);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.log(error);
+        setIsLoading(false);
+      });
+  };
 
   return (
     <div>
@@ -23,10 +37,18 @@ const UserList = () => {
           </li>
         ))}
       </ul>
+
+      {isLoading ? (
+        <p>Loading albums...</p>
+      ) : (
+        <ul>
+          {albums.map(album => (
+            <li key={album.id}>{album.title}</li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
 
 export default UserList;
-
-

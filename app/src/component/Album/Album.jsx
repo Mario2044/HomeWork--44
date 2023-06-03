@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 
 const AlbumList = () => {
   const { userId } = useParams();
   const [albums, setAlbums] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`https://jsonplaceholder.typicode.com/albums?userId=${userId}`)
+    fetch(`https://jsonplaceholder.typicode.com/photos?userId=${userId}`)
       .then(response => response.json())
       .then(data => setAlbums(data))
       .catch(error => console.log(error));
   }, [userId]);
 
   const handlePhotoClick = (albumId) => {
-    // Обработчик клика на кнопку "Photos"
-    // Вставьте вашу логику обработки клика здесь
     console.log(`Clicked on album with id: ${albumId}`);
+    navigate(`/albums/${albumId}/photos`);
   };
 
   return (

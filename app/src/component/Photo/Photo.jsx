@@ -6,7 +6,7 @@ const PhotoList = () => {
   const [photos, setPhotos] = useState([]);
 
   useEffect(() => {
-    fetch(`https://jsonplaceholder.typicode.com/photos?albumId=${albumId}`)
+    fetch(`https://jsonplaceholder.typicode.com/albums?albumId=${albumId}`)
       .then(response => response.json())
       .then(data => setPhotos(data))
       .catch(error => console.log(error));
